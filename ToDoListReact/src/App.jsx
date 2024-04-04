@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { Task } from './components/Task'
 import { Form } from './components/Form'
@@ -7,6 +7,17 @@ function App() {
   const [tarea, setTarea] = useState('');
   const [tareas, setTareas] = useState([]);
 
+  useEffect(() => {
+    const storedTareas  = localStorage.getItem("tareas");
+    
+    if (storedTareas) {
+      setTareas(JSON.parse(storedTareas));
+    }
+  },[]);
+
+  useEffect(() => {
+    if (tareas.length>0) {
+    localStorage.setItem("tareas", JSON.stringify(tareas))};}, [tareas]);
   const handleChange =  e => {
     setTarea(e.target.value);
   }
